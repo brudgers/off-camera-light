@@ -1,9 +1,9 @@
 * Program purpose
-The purpose of the program is to provide a flexible way of estimating the correct settings of a photogrpahic speed light and DSLR camera for a simple scene and likewise estimate the correct construction of a scene given the settings of a speedlight and camera.
+The purpose of the program is to provide a flexible way of estimating the correct settings of a photographic speed light and DSLR camera for a simple scene and likewise estimate the correct construction of a scene given the settings of a speedlight and camera.
 ** Program Outline
 #+BEGIN_SRC smalltalk :tangle off-camera-light.st :noweb tangle
     "off-camera-light.st"
-    "Estimates the setting for using a camera and speed light or conversely estimates the necssary scene parameters based on camera and speed light settings"
+    "Estimates the setting for using a camera and speed light or conversely estimates the necessary scene parameters based on camera and speed light settings"
 
   Namespace current: OffCameraLight [
 
@@ -19,9 +19,9 @@ The purpose of the program is to provide a flexible way of estimating the correc
 
    ]
 #+END_SRC
-Perhaps the one of the interesting features of this program is that it uses GNU Smalltalk's namespaces. The reason I find it interesting is that literate programming allows the use of namespace while still writing code that is /right justified/ in the editor. By which I mean that the logical nesting of namespace contents wrapped by =[...]= does not result in redundant indentation when editing the code blocks. For me, having code indented off the left margin when the context for the indentation is irrelevant is ergonomically poor. It bothered me when writing Racket Modules and I prefer Common Lisp's =(in-package ...)= declaritive syntax to explicit nesting. YMMV.
+Perhaps the one of the interesting features of this program is that it uses GNU Smalltalk's namespaces. The reason I find it interesting is that literate programming allows the use of namespace while still writing code that is /right justified/ in the editor. By which I mean that the logical nesting of namespace contents wrapped by =[...]= does not result in redundant indentation when editing the code blocks. For me, having code indented off the left margin when the context for the indentation is irrelevant is ergonomically poor. It bothered me when writing Racket Modules and I prefer Common Lisp's =(in-package ...)= declarative syntax to explicit nesting. YMMV.
 ** Base formula
-Working distance at full illumnation equals light rating divided by f-stop at ISO 100.
+Working distance at full illumination equals light rating divided by f-stop at ISO 100.
 
 working_distance = (rating * (log_2(ISO/100) + 1)) / f-stop.
 

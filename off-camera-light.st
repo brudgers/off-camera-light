@@ -1,5 +1,5 @@
 "off-camera-light.st"
-  "Estimates the setting for using a camera and speed light or conversely estimates the necssary scene parameters based on camera and speed light settings"
+  "Estimates the setting for using a camera and speed light or conversely estimates the necessary scene parameters based on camera and speed light settings"
 
 Namespace current: OffCameraLight [
 
