@@ -92,8 +92,18 @@ Given that the goal is to establish a two way relationship circle *light <-> cam
           s := sensitivity.
       ]
       eV [
-          "Calculate the number of stops away from Sunny 16."
+          | sunny16Ev aperture shutter iso rawEv |
+          "Calculate the Exposure Value."
+          sunny16Ev := 8. 
+          aperture := n squared log: 2.
+          shutter := 100 / (1/t) log: 2.
+          iso := (s / 100) log: 2.
+          rawEv := aperture + shutter + iso.
           ^'Not yet implemented'.
+      ]
+      sunny16 [
+          "Calculate the number of stops away from Sunny 16 settings."
+          ^eV - 15.
       ]
   ]
 #+END_SRC
@@ -113,7 +123,7 @@ A scene for our purpose has a camera, speedlight, a subject, and a light value.
 #+NAME: scene
 #+BEGIN_SRC smalltalk
   Object subclass: Scene [
-      | camera light subject lV |
+      | subject lV foreground background |
       "A container for all the components of a photograph (sort of)."
   ]
 #+END_SRC
@@ -168,3 +178,11 @@ The light value in a scene is a scalar of the reflected light reaching the camer
 #+END_SRC
 *** Foreground
 *** Background
+** World :TODO:
+#+NAME: world
+#+BEGIN_SRC smalltalk
+  Object subclass: world [
+      | scene camera light |
+      "A class to simulate a photographic environment."
+  ]
+#+END_SRC

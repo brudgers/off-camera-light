@@ -72,8 +72,18 @@ Namespace current: OffCameraLight [
             s := sensitivity.
         ]
         eV [
-            "Calculate the number of stops away from Sunny 16."
+            | sunny16Ev aperture shutter iso rawEv |
+            "Calculate the Exposure Value."
+            sunny16Ev := 8. 
+            aperture := n squared log: 2.
+            shutter := 100 / (1/t) log: 2.
+            iso := (s / 100) log: 2.
+            rawEv := aperture + shutter + iso.
             ^'Not yet implemented'.
+        ]
+        sunny16 [
+            "Calculate the number of stops away from Sunny 16 settings."
+            ^eV - 15.
         ]
     ]
 
@@ -113,7 +123,7 @@ Namespace current: OffCameraLight [
     ]    
 
     Object subclass: Scene [
-        | camera light subject lV |
+        | subject lV foreground background |
         "A container for all the components of a photograph (sort of)."
     ]
 
