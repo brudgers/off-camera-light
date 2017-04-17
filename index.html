@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-04-15 Sat 17:25 -->
+<!-- 2017-04-17 Mon 11:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -232,22 +232,23 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1f50dcd">1. Program purpose</a>
+<li><a href="#org9268cf9">1. Program purpose</a>
 <ul>
-<li><a href="#org0fc2d3b">1.1. Program Outline</a></li>
+<li><a href="#orge92ab6d">1.1. Program Outline</a></li>
+<li><a href="#org229589a">1.2. Base formula</a></li>
+<li><a href="#org47d5fff">1.3. Constraint Network Approach</a></li>
 </ul>
 </li>
-<li><a href="#org701385b">2. Base formula</a></li>
-<li><a href="#orgd744e69">3. Constraint Network Approach</a></li>
-<li><a href="#org5876f4c">4. Objects?</a>
+<li><a href="#org8eeefab">2. Objects?</a>
 <ul>
-<li><a href="#org42ac64a">4.1. Light</a></li>
-<li><a href="#org5862a29">4.2. Camera</a></li>
-<li><a href="#org652884c">4.3. Scene</a>
+<li><a href="#org71bbac6">2.1. Light</a></li>
+<li><a href="#org2690436">2.2. Camera</a></li>
+<li><a href="#org144a86e">2.3. Scene</a>
 <ul>
-<li><a href="#org0ee3eb8">4.3.1. Subject</a></li>
-<li><a href="#org01a61d4">4.3.2. Foreground</a></li>
-<li><a href="#orgb7cdb3f">4.3.3. Background</a></li>
+<li><a href="#org4cf903c">2.3.1. Light Value</a></li>
+<li><a href="#org3bbc1a5">2.3.2. Subject</a></li>
+<li><a href="#org52481a1">2.3.3. Foreground</a></li>
+<li><a href="#orgcd39ba4">2.3.4. Background</a></li>
 </ul>
 </li>
 </ul>
@@ -255,35 +256,43 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-<div id="outline-container-org1f50dcd" class="outline-2">
-<h2 id="org1f50dcd"><span class="section-number-2">1</span> Program purpose</h2>
+<div id="outline-container-org9268cf9" class="outline-2">
+<h2 id="org9268cf9"><span class="section-number-2">1</span> Program purpose</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The purpose of the program is to provide a flexible way of estimating the correct settings of a photogrpahic speed light and DSLR camera for a simple scene and likewise estimate the correct construction of a scene given the settings of a speedlight and camera.
 </p>
 </div>
-<div id="outline-container-org0fc2d3b" class="outline-3">
-<h3 id="org0fc2d3b"><span class="section-number-3">1.1</span> Program Outline</h3>
+<div id="outline-container-orge92ab6d" class="outline-3">
+<h3 id="orge92ab6d"><span class="section-number-3">1.1</span> Program Outline</h3>
 <div class="outline-text-3" id="text-1-1">
 <div class="org-src-container">
-<pre class="src src-smalltalk">"off-camera-light.st"
-"Estimates the setting for using a camera and speed light or conversely estimates the necssary scene parameters based on camera and speed light settings"
+<pre class="src src-smalltalk">  "off-camera-light.st"
+  "Estimates the setting for using a camera and speed light or conversely estimates the necssary scene parameters based on camera and speed light settings"
 
-&lt;&lt;camera&gt;&gt;
+Namespace current: OffCameraLight [
 
-&lt;&lt;light&gt;&gt;
+    &lt;&lt;light-value&gt;&gt;
 
-&lt;&lt;subject&gt;&gt;
+    &lt;&lt;camera&gt;&gt;
 
-&lt;&lt;scene&gt;&gt;
+    &lt;&lt;light&gt;&gt;
+
+    &lt;&lt;subject&gt;&gt;
+
+    &lt;&lt;scene&gt;&gt;
+
+ ]
 </pre>
 </div>
+<p>
+Perhaps the one of the interesting features of this program is that it uses GNU Smalltalk's namespaces. The reason I find it interesting is that literate programming allows the use of namespace while still writing code that is <i>right justified</i> in the editor. By which I mean that the logical nesting of namespace contents wrapped by <code>[...]</code> does not result in redundant indentation when editing the code blocks. For me, having code indented off the left margin when the context for the indentation is irrelevant is ergonomically poor. It bothered me when writing Racket Modules and I prefer Common Lisp's <code>(in-package ...)</code> declaritive syntax to explicit nesting. YMMV.
+</p>
 </div>
 </div>
-</div>
-<div id="outline-container-org701385b" class="outline-2">
-<h2 id="org701385b"><span class="section-number-2">2</span> Base formula</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org229589a" class="outline-3">
+<h3 id="org229589a"><span class="section-number-3">1.2</span> Base formula</h3>
+<div class="outline-text-3" id="text-1-2">
 <p>
 Working distance at full illumnation equals light rating divided by f-stop at ISO 100.
 </p>
@@ -298,22 +307,23 @@ rating = base power / power setting
 </div>
 </div>
 
-<div id="outline-container-orgd744e69" class="outline-2">
-<h2 id="orgd744e69"><span class="section-number-2">3</span> Constraint Network Approach</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org47d5fff" class="outline-3">
+<h3 id="org47d5fff"><span class="section-number-3">1.3</span> Constraint Network Approach</h3>
+<div class="outline-text-3" id="text-1-3">
 <p>
 Given that the goal is to establish a two way relationship circle <b>light &lt;-&gt; camera &lt;-&gt; scene &lt;-&gt; light</b> this seems like a problem for constraint networks.
 </p>
 </div>
 </div>
-<div id="outline-container-org5876f4c" class="outline-2">
-<h2 id="org5876f4c"><span class="section-number-2">4</span> Objects?</h2>
-<div class="outline-text-2" id="text-4">
-</div><div id="outline-container-org42ac64a" class="outline-3">
-<h3 id="org42ac64a"><span class="section-number-3">4.1</span> Light</h3>
-<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-org8eeefab" class="outline-2">
+<h2 id="org8eeefab"><span class="section-number-2">2</span> Objects?</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-org71bbac6" class="outline-3">
+<h3 id="org71bbac6"><span class="section-number-3">2.1</span> Light</h3>
+<div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-smalltalk" id="orge2c494a">Object subclass: Light [
+<pre class="src src-smalltalk" id="orgbebeaf8">Object subclass: Light [
     "A class to model a speedlight state."
     | rating power_setting |
     guide_number [
@@ -337,17 +347,20 @@ Given that the goal is to establish a two way relationship circle <b>light &lt;-
 </div>
 </div>
 </div>
-<div id="outline-container-org5862a29" class="outline-3">
-<h3 id="org5862a29"><span class="section-number-3">4.2</span> Camera</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-org2690436" class="outline-3">
+<h3 id="org2690436"><span class="section-number-3">2.2</span> Camera</h3>
+<div class="outline-text-3" id="text-2-2">
 <div class="org-src-container">
-<pre class="src src-smalltalk" id="org6818bfd">Object subclass: Camera [
+<pre class="src src-smalltalk" id="org2f0224f">Object subclass: Camera [
 "The basis for variable names is Manual of Photography 10th edition.
    n  is relative aperture
    t  is shutter speed
    s  is sensitivity based" 
     | n t s |
     &lt;comment: 'A class for describing the state of a camera.'&gt;
+
+    &lt;&lt;camera-init&gt;&gt;
+
     aperture [
         "Get the aperture value."
         ^n.
@@ -360,17 +373,17 @@ Given that the goal is to establish a two way relationship circle <b>light &lt;-
         "Get camera's shutter speed."
         ^t.
     ]
-    shutter: aNumber [
+    shutter: time [
         "Set camera's shutter speed."
-        t := aNumber.
+        t := time.
     ]
     iso [
         "Get camera's sensitivity setting."
         ^s.
     ]
-    iso: aNumber [
+    iso: sensitivity [
         "Set camera's sensitivity setting."        
-        s := aNumber.
+        s := sensitivity.
     ]
     eV [
         "Calculate the number of stops away from Sunny 16."
@@ -379,27 +392,78 @@ Given that the goal is to establish a two way relationship circle <b>light &lt;-
 ]
 </pre>
 </div>
-</div>
-</div>
-<div id="outline-container-org652884c" class="outline-3">
-<h3 id="org652884c"><span class="section-number-3">4.3</span> Scene</h3>
-<div class="outline-text-3" id="text-4-3">
 <p>
-A scene for our purpose has a camera, speedlight, a subject, and an exposure value.
+Create and initialize a camera. Code ends with <code>yourself</code> to return the object rather than the value of the last expression.
 </p>
 <div class="org-src-container">
-<pre class="src src-smalltalk" id="org8ccba18">Object subclass: Scene [
-    | camera light subject eV |
+<pre class="src src-smalltalk" id="orgeedc416">Camera class &gt;&gt; aperture: stop shutter: time iso: sensitivity [
+    ^(self new)
+    aperture: stop;
+    shutter: time;
+    iso: sensitivity;
+    yourself.
+]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org144a86e" class="outline-3">
+<h3 id="org144a86e"><span class="section-number-3">2.3</span> Scene</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+A scene for our purpose has a camera, speedlight, a subject, and a light value.
+</p>
+<div class="org-src-container">
+<pre class="src src-smalltalk" id="orgec912a6">Object subclass: Scene [
+    | camera light subject lV |
     "A container for all the components of a photograph (sort of)."
 ]
 </pre>
 </div>
 </div>
-<div id="outline-container-org0ee3eb8" class="outline-4">
-<h4 id="org0ee3eb8"><span class="section-number-4">4.3.1</span> Subject</h4>
-<div class="outline-text-4" id="text-4-3-1">
+<div id="outline-container-org4cf903c" class="outline-4">
+<h4 id="org4cf903c"><span class="section-number-4">2.3.1</span> Light Value</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+The light value in a scene is a scalar of the reflected light reaching the camera (on average). In this project it is implemented as a "global" variable of the namespace <code>OffCameraLight</code>.
+</p>
 <div class="org-src-container">
-<pre class="src src-smalltalk" id="org651f396">Object subclass: Subject [
+<pre class="src src-smalltalk" id="orgab9f48b">"The values and descriptions are from http://www.crakephoto.com/reference/index.html"
+&lt;comment: 'A dictionary associating light values with scene descriptions'&gt;
+LightValue := Dictionary new.
+LightValue at: 17 put: 'Rarely seen in nature'.
+LightValue at: 16 put: 'Bright sunlight off of sand or snow'.
+LightValue at: 15 put: 'Bright hazy sunlight'.
+LightValue at: 14 put: 'Weak hazy sunlight'.
+LightValue at: 13 put: 'Bright cloudy day'.
+LightValue at: 12 put: 'Overcast day'.
+LightValue at: 11 put: 'Shade on a bright day or during sunrise/set'.
+LightValue at: 10 put: 'Dusk or dawn'.
+LightValue at:  9 put: 'Late dusk or early dawn'.
+LightValue at:  8 put: 'Times square at night 	'.
+LightValue at:  7 put: 'Brightly lit street 	'.
+LightValue at:  6 put: 'Bright interior 	'.
+LightValue at:  5 put: 'Average interior or auditorium'.
+LightValue at:  4 put: 'Christmas or candle lights'.
+LightValue at:  3 put: 'Fireworks (emitted)'.
+LightValue at:  2 put: 'Lightning from a distance (emitted)'.
+LightValue at:  1 put: 'City skyline at night (emitted)'.
+LightValue at:  0 put: 'Dim ambient light'.
+LightValue at: -1 put: 'Really dim ambient light'.
+LightValue at: -2 put: 'Full moon off of sand or snow'.
+LightValue at: -3 put: 'Full moon'.
+LightValue at: -4 put: 'Half moon'.
+LightValue at: -5 put: 'Crescent moon'.
+LightValue at: -6 put: 'Starlight'.
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3bbc1a5" class="outline-4">
+<h4 id="org3bbc1a5"><span class="section-number-4">2.3.2</span> Subject</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<div class="org-src-container">
+<pre class="src src-smalltalk" id="orgf6ff2bb">Object subclass: Subject [
     | d |
     "A class to describe a photographic subject."
     distance [
@@ -416,18 +480,18 @@ A scene for our purpose has a camera, speedlight, a subject, and an exposure val
 </div>
 </div>
 </div>
-<div id="outline-container-org01a61d4" class="outline-4">
-<h4 id="org01a61d4"><span class="section-number-4">4.3.2</span> Foreground</h4>
+<div id="outline-container-org52481a1" class="outline-4">
+<h4 id="org52481a1"><span class="section-number-4">2.3.3</span> Foreground</h4>
 </div>
-<div id="outline-container-orgb7cdb3f" class="outline-4">
-<h4 id="orgb7cdb3f"><span class="section-number-4">4.3.3</span> Background</h4>
+<div id="outline-container-orgcd39ba4" class="outline-4">
+<h4 id="orgcd39ba4"><span class="section-number-4">2.3.4</span> Background</h4>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: benrudgers</p>
-<p class="date">Created: 2017-04-15 Sat 17:25</p>
+<p class="date">Created: 2017-04-17 Mon 11:33</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
